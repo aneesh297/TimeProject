@@ -1,3 +1,6 @@
+creds.txt
+twitter_api_credentials.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
