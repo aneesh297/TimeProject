@@ -121,8 +121,8 @@ class TwitterStream:
             print(e)
 
     def store_tweet_to_db(self, data):
-        self.users.extend(data.users)
-        self.tweets.extend(data.tweets)
+        # self.users.extend(data.users)
+        # self.tweets.extend(data.tweets)
         for tweet in data.tweets:
             TweetDBHandler.insert_tweet(tweet, self.db_handler)
         for user in data.users:
