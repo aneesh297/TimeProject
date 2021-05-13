@@ -22,6 +22,7 @@ class TwitterStream:
 
     def __init__(self, db: DBHandler = None):
         self.db_handler = db
+        # Twitter Credentials are stored in creds.txt
         o = TwitterOAuth.read_file("creds.txt")
         self.api = TwitterAPI(o.consumer_key, o.consumer_secret,
                               auth_type='oAuth2', api_version='2')
@@ -41,6 +42,7 @@ class TwitterStream:
             processed_rules["add"].append({"value": f'\"{rule}\"'})
         return processed_rules
 
+    # Update streaming rules on Twitter.
     def update_rules(self, rules):
         try:
             r = self.api.request('tweets/search/stream/rules', self.gen_rules(rules))
@@ -50,6 +52,7 @@ class TwitterStream:
         except Exception as e:
             print(e)
 
+    # Fetch streaming rules (keywords) from Twitter. Use for debugging.
     def get_rules(self):
         r = self.api.request('tweets/search/stream/rules', method_override='GET')
         print(f'[{r.status_code}]')
@@ -124,11 +127,13 @@ class TwitterStream:
             TweetDBHandler.insert_tweet(tweet, self.db_handler)
         for user in data.users:
             TweetDBHandler.insert_user(user, self.db_handler)
-        if len(self.tweets) > 50:
-            self.dump_to_file()
-            self.users = []
-            self.tweets = []
+        #     Dump to CSV files for debugging
+        # if len(self.tweets) > 50:
+        #     self.dump_to_file()
+        #     self.users = []
+        #     self.tweets = []
 
+    # Stores tweets and users in csv files.
     def dump_to_file(self):
         print("Dumping to CSV files")
         user_df = pd.DataFrame([user.user_dict() for user in self.users])
@@ -148,6 +153,7 @@ def main():
     db_credentials = stream_utils.read_database_credentials('db_creds.json')
 
     db = DBHandler()
+    # Update credentials here
     db.create_db_connection(db_credentials['local_host'], db_credentials['local_user'],
                             db_credentials['local_password'], db_credentials['db_name'])
     streamer = TwitterStream(db)

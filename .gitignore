@@ -1,5 +1,8 @@
 creds.txt
 twitter_api_credentials.txt
+db_creds.json
+.idea/
+*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
