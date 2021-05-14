@@ -166,7 +166,7 @@ def main():
 
 
 def read_keywords(db_handler: DBHandler):
-    read_keyword_query = "SELECT keyword from tcorstwitter.twitter_keywords"
+    read_keyword_query = f"SELECT keyword from {TweetDBHandler.DATABASE_NAME}.twitter_keywords"
     keyword_tuples = db_handler.execute_read_query(read_keyword_query)
     keywords = [key[0] for key in keyword_tuples]
     return keywords
