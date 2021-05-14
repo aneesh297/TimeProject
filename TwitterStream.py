@@ -154,6 +154,7 @@ def main():
 
     db = DBHandler()
     # Update credentials here
+    TweetDBHandler.DATABASE_NAME = db_credentials['db_name']
     db.create_db_connection(db_credentials['local_host'], db_credentials['local_user'],
                             db_credentials['local_password'], db_credentials['db_name'])
     streamer = TwitterStream(db)
